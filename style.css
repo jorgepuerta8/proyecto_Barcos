@@ -32,8 +32,10 @@ main {
   height: auto;
   background-color: black;
   color: yellow;
+  overflow-x: auto; /** para hacerlo responsive**/
 }
 #campo2 {
+  overflow-x: auto;/** para hacerlo responsive**/
     grid-area: 2/2/3/3;
   margin: auto;
   height: auto;
@@ -41,18 +43,15 @@ main {
   color: yellow;
 }
 /** Tablero **/
-#Tablero1 {
-display:grid;
-grid-template-columns: repeat(10,25px);
-grid-template-rows: repeat(10,25px);
-
+#Tablero1, #Tablero2 {
+  border-collapse: collapse; /** para hacerlo responsive**/
+border: 4px double yellow;
 background-color: darkblue;
+COLOR: white;
+text-align: center;
 }
-#Tablero2 {
-    display:grid;
-    grid-template-columns: repeat(10,25px);
-    grid-template-rows: repeat(10,25px);
-background-color: darkblue;
+tr,td{
+  border: 4px double yellow;
 }
 h1, p{
     text-align: center;

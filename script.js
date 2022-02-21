@@ -37,6 +37,13 @@ boton.addEventListener('click',(e)=>{
             
             celdas[counter].setAttribute('class','golpe');
         }
+        if(e.keyCode ==40){
+            celdas[counter].removeAttribute('class','golpe');
+            celdas[counter+1].removeAttribute('class','golpe');
+            counter +=10;
+            
+            celdas[counter].setAttribute('class','golpe');
+        }
     })
 })
 

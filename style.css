@@ -1,4 +1,11 @@
 /** Estructura divida en dos cuadrantes horizontales **/
+.barco{
+  background-color: red;
+}
+.agua{
+  background-color: blue;
+}
+
 body {
   display: grid; /** 3 zonas**/
   margin: 0;
@@ -49,8 +56,8 @@ header {
   border-collapse: collapse; /** para hacerlo responsive**/
   width: 100%;
   border: 4px double yellow;
-  background-color: darkblue;
-  color: white;
+  background-color: white;
+  color: black;
   text-align: center;
 }
 tr,

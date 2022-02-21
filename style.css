@@ -1,9 +1,15 @@
 /** Estructura divida en dos cuadrantes horizontales **/
-.barco{
+.golpe{
   background-color: red;
 }
 .agua{
   background-color: blue;
+}
+
+.barco{
+  width: 50px;
+  height: 10px;
+  position: absolute;
 }
 
 body {

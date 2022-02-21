@@ -13,35 +13,30 @@ jugador1.addEventListener('click',(e)=>{
     }
 })
 
-let boton = document.getElementById('coger-barco')
+let boton = document.getElementById('spawn-barco')
 
+boton.addEventListener('click',(e)=>{
+    let celda = e.target;
+    celda = celdas[12].setAttribute('class','golpe');
+    let counter = 12;
+    e.target.addEventListener('keydown',(e)=>{
+        if(e.keyCode ==39){
+            counter ++;
+            celdas[counter-2].removeAttribute('class','golpe');
+            celdas[counter].setAttribute('class','golpe');
+        }
+        if(e.keyCode ==37){
+            counter --;
+            celdas[counter+2].removeAttribute('class','golpe');
+            celdas[counter].setAttribute('class','golpe');
+        }
+        if(e.keyCode ==38){
+            celdas[counter].removeAttribute('class','golpe');
+            celdas[counter-1].removeAttribute('class','golpe');
+            counter -=10;
+            
+            celdas[counter].setAttribute('class','golpe');
+        }
+    })
+})
 
-
-window.onload = function(){
-    draggable('one');
-};
-
-var dragObj = null;
-function draggable(id)
-{
-    var obj = document.getElementById(id);
-    obj.style.position = "absolute";
-    obj.onmousedown = function(){
-            dragObj = obj;
-    }
-}
-
-document.onmouseup = function(e){
-    dragObj = null;
-};
-
-document.onmousemove = function(e){
-    var x = e.pageX;
-    var y = e.pageY;
-
-    if(dragObj == null)
-        return;
-
-    dragObj.style.left = x +"px";
-    dragObj.style.top= y +"px";
-};

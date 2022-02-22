@@ -34,6 +34,10 @@ function menuCreacion(){
     })
 }
 //Función creacion tablero, recibe el tamaño por parámetro
+/**
+ * 
+ * @param {*} tamano 
+ */
 function crearTabla(tamano){
     
     tamano = parseInt(tamano, 10);
@@ -86,7 +90,10 @@ function crearTabla(tamano){
 
     crearControles(tamano);
 }
-
+/**
+ * 
+ * @param {*} tamano 
+ */
 function crearControles(tamano){
     let fragmentoDOM = document.createDocumentFragment();
 

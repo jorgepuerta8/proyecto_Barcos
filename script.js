@@ -1,4 +1,18 @@
 window.onload = menuCreacion;
+
+//Clase barco
+class Barco {
+
+    constructor(tamano, posicionY, posicionX, direccion){
+        this.tamano = tamano;
+        this.posicionY = [];
+        this.posicionX = [];
+        this.direccion = direccion;
+
+        
+    }
+}
+
 //Primer menú
 function menuCreacion(){
 

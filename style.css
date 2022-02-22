@@ -1,4 +1,3 @@
-/** Estructura divida en dos cuadrantes horizontales **/
 .golpe{
   background-color: red;
 }
@@ -7,16 +6,13 @@
 }
 
 html,body {
-   /** 3 zonas**/
   margin: 0;
   height: 100%;
   background-image: url("Hijacked.png");
   background-repeat: no-repeat;
   background-size: cover;
   contain: content;
-  
 }
-
 
 header {
   background: rgb(34, 193, 195);
@@ -30,9 +26,6 @@ header {
   margin-bottom: 4%;
 }
 
-
-/** Campos de juego  **/
-
 #campo{
   display: grid;
   margin: auto;
@@ -40,10 +33,8 @@ header {
   height: 40vw;
   background-color: black;
   color: yellow;
-  
 }
 
-/** Tableros **/
 #tablero{
   border-collapse: collapse; 
   width: 100%;
@@ -53,21 +44,31 @@ header {
   text-align: center;
   table-layout: fixed;
 }
+
 tr,
 td {
   border: 2px groove yellow;
 }
+
 h1,
 p {
   text-align: center;
 }
+
 td:hover {
-  background-color: red;
+  background-color: black;
   opacity: 0.5;
 }
+
 tr:first-child {
   pointer-events: none;
 }
+
 td:first-child {
   pointer-events: none;
+}
+
+label{
+  text-align: center;
+  font-size:2vw;
 }

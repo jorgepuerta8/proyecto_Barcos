@@ -14,6 +14,7 @@ html,body {
   background-repeat: no-repeat;
   background-size: cover;
   contain: content;
+  
 }
 
 
@@ -32,18 +33,18 @@ header {
 
 /** Campos de juego  **/
 
-#campo1 {
+#campo{
   display: grid;
   margin: auto;
   width: 40vw;
   height: 40vw;
   background-color: black;
   color: yellow;
-
+  
 }
 
 /** Tableros **/
-#Tablero1{
+#tablero{
   border-collapse: collapse; 
   width: 100%;
   border: 4px double yellow;

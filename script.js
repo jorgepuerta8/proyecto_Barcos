@@ -195,7 +195,9 @@ function crearControles(tamano){
 
     boton.addEventListener('click',colocarBarco);
 }
-
+/**
+ * 
+ */
 function colocarBarco() {
 
     let tamanoBarco = document.getElementsByName('tamano')[0].value;

@@ -139,7 +139,7 @@ function crearControles(tamano){
 
     //Select coordenadas y
     let y = document.createElement('select');
-    x.setAttribute('name','xy[]');
+    y.setAttribute('name','xy[]');
     //Optgroup en select
     let tituloY = document.createElement('optgroup');
     tituloY.setAttribute('label','Y')
@@ -187,5 +187,20 @@ function crearControles(tamano){
     fragmentoDOM.appendChild(boton);
 
     let caja = document.getElementById('campo');
-    caja.appendChild(fragmentoDOM);
+    let controles = document.createElement('div');
+    controles.setAttribute('id','controles');
+
+    controles.appendChild(fragmentoDOM);
+    caja.appendChild(controles);
+
+    boton.addEventListener('click',colocarBarco);
+}
+
+function colocarBarco() {
+
+    let tamanoBarco = document.getElementsByName('tamano')[0].value;
+    let x = document.getElementsByName('xy[]')[0].value;
+    let y = document.getElementsByName('xy[]')[1].value;
+    let direccion = document.getElementsByName('direccion')[0].value;
+
 }

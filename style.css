@@ -6,8 +6,6 @@
   background-color: blue;
 }
 
-
-
 html,body {
    /** 3 zonas**/
   margin: 0;
@@ -37,21 +35,22 @@ header {
 #campo1 {
   display: grid;
   margin: auto;
-  width: 35vw;
-  height: 35vw;
+  width: 40vw;
+  height: 40vw;
   background-color: black;
   color: yellow;
-  overflow-x: auto; /** para hacerlo responsive**/
+
 }
 
 /** Tableros **/
 #Tablero1{
-  border-collapse: collapse; /** para hacerlo responsive**/
+  border-collapse: collapse; 
   width: 100%;
   border: 4px double yellow;
   background-color: white;
   color: black;
   text-align: center;
+  table-layout: fixed;
 }
 tr,
 td {

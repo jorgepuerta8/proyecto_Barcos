@@ -1,5 +1,10 @@
 window.onload = menuCreacion;
-//Primer menú
+
+/**
+ * Creación del menú interactivo con el cual el usuario elige el tamaño del tablero
+ * @author Cosmin
+ * @return{Menu}
+ */
 function menuCreacion(){
 
     let contenedor = document.getElementById('campo');
@@ -33,10 +38,12 @@ function menuCreacion(){
         crearTabla(tamano);
     })
 }
-//Función creacion tablero, recibe el tamaño por parámetro
 /**
+ * //Función creacion tablero, recibe el tamaño por parámetro
+ * @author Cosmin
+ * @param {int} tamano 
+ * @return {void} tablero 
  * 
- * @param {*} tamano 
  */
 function crearTabla(tamano){
     
@@ -91,8 +98,10 @@ function crearTabla(tamano){
     crearControles(tamano);
 }
 /**
- * 
- * @param {*} tamano 
+ * Función que genera los controles de coordenadas
+ * @author Cosmin
+ * @param {int} tamano 
+ * @return {void} opciones
  */
 function crearControles(tamano){
     let fragmentoDOM = document.createDocumentFragment();
@@ -196,7 +205,10 @@ function crearControles(tamano){
     boton.addEventListener('click',colocarBarco);
 }
 /**
- * 
+ * Funcion que nos coloca el barco en el tablero según 
+ * @author Cosmin
+ * @params [x, y] Las coordenadas del Select
+ * @return {void} //Barco colocado en el tablero
  */
 function colocarBarco() {
 

@@ -1,0 +1,10 @@
+{
+    "source":{
+    "include":["../script.js"],
+    "inlcudePattern": ".+\\.js(doc|x)?$",
+    "exclude": "node_modules/"
+    },
+    "opts":{
+        "destination": "JsDoc/"
+    }
+}

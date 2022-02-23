@@ -417,7 +417,7 @@ function dispararBarco(){
                 e.target.setAttribute('class','golpe');
             }
             //Si hace click en agua
-            else{
+            else if(!(e.target.className=='golpe')){
                 e.target.setAttribute('class','agua');
             }
         }

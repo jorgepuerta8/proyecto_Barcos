@@ -34,11 +34,11 @@ header {
 #campo{
   margin-top: 4%;
   margin:auto;
-  width: 70%;
+  width: 50%;
   height: 100%;
   color: yellow;
   text-align:center;
-  line-height: 3;
+  line-height: 3.2;
 }
 
 #tablero{

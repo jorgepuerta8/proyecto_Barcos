@@ -26,7 +26,7 @@ class Barco {
         if(this.direccion == 'derecha'){
             this.posicionY.push(posicionY);
             for(let i = 0;i < tamano; i++){
-                this.posicioX.push(posicionX + i);
+                this.posicionX.push(posicionX + i);
             }
 
             //Zona no valida
@@ -283,14 +283,22 @@ function colocarBarco() {
     let y = document.getElementsByName('xy[]')[1].value;
     let direccion = document.getElementsByName('direccion')[0].value;
 
+    tamanoBarco = parseInt(tamanoBarco, 10);
+    x = parseInt(x, 10);
+    y = parseInt(y, 10);
+
+    //Comprobación e insercción en lista de barcos
     if(comprobarBarco(tamanoBarco,x,y,direccion)){
         barcosColocados.push(new Barco(tamanoBarco,x,y,direccion));
+
+        console.log(barcosColocados)
     }
 }
 
+//Comprueba que no se salga del tablero
 function comprobarBarco(tamanoBarco,x,y,direccion){
     let valido = false;
-
+    
     if(conflictoZonas(tamanoBarco,x,y,direccion)){
         if(direccion == 'derecha'){
             if(tamanoTablero +1 >= tamanoBarco + x){
@@ -307,8 +315,26 @@ function comprobarBarco(tamanoBarco,x,y,direccion){
     return valido;
 }
 
+//Comprueba que no haya conflicto de posicion con  otros barcos
 function conflictoZonas(tamanoBarco,x,y,direccion){
     let valido = true;
 
-    let barcoNuevo = new Barco(tamanoBarco,)
+    let barcoNuevo = new Barco(tamanoBarco,x,y,direccion);
+    
+    barcosColocados.forEach((barco)=>{
+        barcoNuevo.posicionX.forEach((x)=>{
+            if(barco.novalidoX.includes(x) && barco.novalidoY.includes(barcoNuevo.posicionY[0])){
+                valido = false;
+                
+            }
+        })
+        barcoNuevo.posicionY.forEach((y)=>{
+            if(barco.novalidoY.includes(y) && barco.novalidoX.includes(barcoNuevo.posicionX[0])){
+                valido = false;
+                
+            }
+        })
+    })
+    
+    return valido;
 }

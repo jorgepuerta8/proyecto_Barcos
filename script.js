@@ -294,8 +294,15 @@ function colocarBarco() {
         console.log(barcosColocados)
     }
 }
-
-//Comprueba que no se salga del tablero
+/**
+ * Metodo realizado para comprobar si un barco abarca el mismo espacio de uno ya existente
+ * @author Cosmin
+ * @param {*} tamanoBarco 
+ * @param {*} x 
+ * @param {*} y 
+ * @param {*} direccion 
+ * @returns 
+ */
 function comprobarBarco(tamanoBarco,x,y,direccion){
     let valido = false;
     
@@ -315,7 +322,16 @@ function comprobarBarco(tamanoBarco,x,y,direccion){
     return valido;
 }
 
-//Comprueba que no haya conflicto de posicion con  otros barcos
+/**
+ * @author Cosmin
+ * @param {*} tamanoBarco 
+ * @param {*} x 
+ * @param {*} y 
+ * @param {*} direccion 
+ */
+
+
+
 function conflictoZonas(tamanoBarco,x,y,direccion){
     let valido = true;
 

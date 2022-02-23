@@ -4,7 +4,6 @@ window.onload = menuCreacion;
  * Creación de la clase Barco
  * @author Cosmin
  * @param {int} tamano
- * @param {int} posicionY
  * @param {int} posicionX
  * @param {int} posicionY
  * @param {direccion} direccion
@@ -12,13 +11,55 @@ window.onload = menuCreacion;
  */
 class Barco {
 
-    constructor(tamano, posicionY, posicionX, direccion){
+    constructor(tamano, posicionX, posicionY, direccion){
         this.tamano = tamano;
-        this.posicionY = [];
         this.posicionX = [];
+        this.posicionY = [];
+        this.novalidoX = [];
+        this.novalidoY = [];
         this.direccion = direccion;
 
-        
+        /*
+        * Relleno el arrray de posicion en el caso de que 
+        * el barco se coloque en horizontal
+        */
+        if(this.direccion == 'derecha'){
+            this.posicionY.push(posicionY);
+            for(let i = 0;i < tamano; i++){
+                this.posicioX.push(posicionX + i);
+            }
+
+            //Zona no valida
+            this.novalidoY.push(posicionY);
+            this.novalidoY.push(posicionY-1);
+            this.novalidoY.push(posicionY+1);
+            this.novalidoX.push(posicionX-1);
+            this.novalidoX.push(posicionX + tamano);
+            for (let i = 0; i < tamano; i++) {
+                this.novalidoX.push(posicionX + i);
+            }
+        }
+
+        /*
+        * Relleno el arrray de posicion en el caso de que 
+        * el barco se coloque en vartical
+        */
+        else if(this.direccion == 'abajo'){
+            this.posicionX.push(posicionX);
+            for(let i = 0;i < tamano; i++){
+                this.posicionY.push(posicionY + i);
+            }
+
+            //Zona no valida
+            this.novalidoX.push(posicionX);
+            this.novalidoX.push(posicionX - 1);
+            this.novalidoX.push(posicionX + 1);
+            this.novalidoY.push(posicionY - 1);
+            this.novalidoY.push(posicionY + tamano);
+            for (let i = 0; i < tamano; i++) {
+                this.novalidoY.push(posicionY + i);
+            }
+        }
     }
 }
 
@@ -158,7 +199,7 @@ function crearControles(tamano){
     x.setAttribute('name','xy[]');
     //Optgroup en select
     let tituloX = document.createElement('optgroup');
-    tituloX.setAttribute('label','X')
+    tituloX.setAttribute('label','Horizontal')
     //Creacion opciones
     for(let i = 0 ; i < tamano;i++){
         let opc =document.createElement('option');
@@ -173,7 +214,7 @@ function crearControles(tamano){
     y.setAttribute('name','xy[]');
     //Optgroup en select
     let tituloY = document.createElement('optgroup');
-    tituloY.setAttribute('label','Y')
+    tituloY.setAttribute('label','Vertical')
     //Creacion opciones
     for(let i = 0 ; i < tamano;i++){
         let opc =document.createElement('option');

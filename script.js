@@ -354,3 +354,4 @@ function conflictoZonas(tamanoBarco,x,y,direccion){
     
     return valido;
 }
+

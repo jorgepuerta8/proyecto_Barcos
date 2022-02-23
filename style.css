@@ -4,6 +4,9 @@
 .agua{
   background-color: blue;
 }
+.barco{
+  background-color: black;
+}
 
 html,body {
   margin: 0;
@@ -65,7 +68,7 @@ p {
 }
 
 td:hover {
-  background-color: black;
+  background-color: salmon;
   opacity: 0.5;
 }
 

@@ -1,10 +1,27 @@
 window.onload = menuCreacion;
 
+<<<<<<< HEAD
 /**
  * Creación del menú interactivo con el cual el usuario elige el tamaño del tablero
  * @author Cosmin
  * @return{Menu}
  */
+=======
+//Clase barco
+class Barco {
+
+    constructor(tamano, posicionY, posicionX, direccion){
+        this.tamano = tamano;
+        this.posicionY = [];
+        this.posicionX = [];
+        this.direccion = direccion;
+
+        
+    }
+}
+
+//Primer menú
+>>>>>>> 81d8ba9bbee5a2258b8ac426348ce8ee048bf9ad
 function menuCreacion(){
 
     let contenedor = document.getElementById('campo');

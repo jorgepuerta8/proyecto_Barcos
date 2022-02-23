@@ -1,0 +1,1 @@
+{"scripts":{"docs":"jsdoc -c jsdoc.json"},"devDependencies":{"jsdoc":"^3.6.10","mocha":"^9.2.1"}}

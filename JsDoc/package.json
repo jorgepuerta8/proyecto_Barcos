@@ -1,1 +1,13 @@
-{"scripts":{"docs":"jsdoc -c jsdoc.json"},"devDependencies":{"jsdoc":"^3.6.10","mocha":"^9.2.1"}}
+{
+    "scripts": {
+        "docs": "jsdoc -c jsdoc.json",
+        "test": "mocha"
+    },
+    "devDependencies": {
+        "jsdoc": "^3.6.10",
+        "mocha": "^9.2.1"
+    },
+    "dependencies": {
+        "chai": "^4.3.6"
+    }
+}

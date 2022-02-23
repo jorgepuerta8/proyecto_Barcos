@@ -67,11 +67,6 @@ p {
   text-align: center;
 }
 
-td:hover {
-  background-color: salmon;
-  opacity: 0.5;
-}
-
 tr:first-child {
   pointer-events: none;
 }

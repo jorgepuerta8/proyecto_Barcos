@@ -253,12 +253,20 @@ function crearControles(){
     fragmentoDOM.appendChild(direccion);
 
     //Boton para colocar el barco
-    let boton = document.createElement('button');
-    boton.setAttribute('type','button');
-    boton.setAttribute('id','colocar');
-    boton.textContent='Colocar';
+    let colocar = document.createElement('button');
+    colocar.setAttribute('type','button');
+    colocar.setAttribute('id','colocar');
+    colocar.textContent='Colocar';
 
-    fragmentoDOM.appendChild(boton);
+    fragmentoDOM.appendChild(colocar);
+
+    //Boton para empezar a disparar
+    let disparar = document.createElement('button');
+    disparar.setAttribute('type','button');
+    disparar.setAttribute('id','disparar');
+    disparar.textContent='Disparar';
+
+    fragmentoDOM.appendChild(disparar);
 
     let caja = document.getElementById('campo');
     let controles = document.createElement('div');
@@ -267,7 +275,8 @@ function crearControles(){
     controles.appendChild(fragmentoDOM);
     caja.appendChild(controles);
 
-    boton.addEventListener('click',colocarBarco);
+    colocar.addEventListener('click',colocarBarco);
+    disparar.addEventListener('click',dispararBarco);
 }
 /**
  * Funcion que nos coloca el barco en el tablero según 
@@ -289,9 +298,25 @@ function colocarBarco() {
 
     //Comprobación e insercción en lista de barcos
     if(comprobarBarco(tamanoBarco,x,y,direccion)){
-        barcosColocados.push(new Barco(tamanoBarco,x,y,direccion));
-
-        console.log(barcosColocados)
+        let barco = new Barco(tamanoBarco,x,y,direccion)
+        barcosColocados.push(barco);
+        let tableroYX = cargarTablero();
+        //En caso de que el barco sea de una celda
+        if(barco.posicionX.length==barco.posicionY.length){
+            tableroYX[barco.posicionY[0]][barco.posicionX[0]].setAttribute('class', 'barco');
+        }
+        //En caso de que se coloque en vertical
+        else if(barco.posicionX.length==1){
+            for(let i = 0; i< barco.posicionY.length;i++){
+                tableroYX[barco.posicionY[i]][barco.posicionX[0]].setAttribute('class','barco');
+            }
+        }
+        //En caso de que se coloque en horizontal
+        else if(barco.posicionY.length==1){
+            for(let i = 0; i< barco.posicionX.length;i++){
+                tableroYX[barco.posicionY[0]][barco.posicionX[i]].setAttribute('class','barco');
+            }
+        }
     }
 }
 /**
@@ -307,11 +332,13 @@ function comprobarBarco(tamanoBarco,x,y,direccion){
     let valido = false;
     
     if(conflictoZonas(tamanoBarco,x,y,direccion)){
+        //Si se ha colocado en horizontal
         if(direccion == 'derecha'){
             if(tamanoTablero +1 >= tamanoBarco + x){
                 valido = true;
             }
         }
+        //Si se ha colocado en vertical
         else if(direccion == 'abajo'){
             if(tamanoTablero +1 >= tamanoBarco + y){
                 valido = true;
@@ -355,3 +382,44 @@ function conflictoZonas(tamanoBarco,x,y,direccion){
     return valido;
 }
 
+function cargarTablero(){
+    let tablero = document.getElementById('tablero');
+    let tableroYX = [];
+    
+    //Cargo todas las celdas a un array bidimensional
+    [...tablero.children].forEach((fila)=>{
+        let columna = [];
+        [...fila.children].forEach((celda)=>{
+            columna.push(celda);
+        })
+        tableroYX.push(columna);
+    })
+
+    return tableroYX;
+}
+
+function dispararBarco(){
+    //Quito la funcion de colocar barcos
+    document.getElementById('colocar').removeEventListener('click',colocarBarco);
+
+    //Escondo los barcos
+    [].forEach.call(document.querySelectorAll('.barco'), function (barco) {
+        barco.style.backgroundColor = 'white';
+    });
+
+    let tablero = document.getElementById('tablero');
+
+    tablero.addEventListener('click',(e)=>{
+        if(e.target.nodeName=='TD'){
+            //Si hace click en un barco
+            if(e.target.className=='barco'){
+                e.target.removeAttribute('style');
+                e.target.setAttribute('class','golpe');
+            }
+            //Si hace click en agua
+            else{
+                e.target.setAttribute('class','agua');
+            }
+        }
+    })
+}

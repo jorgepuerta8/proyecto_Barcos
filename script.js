@@ -23,7 +23,7 @@ class Barco {
 }
 
 /**
- * @author Nico
+ * @author Cosmin
  * Creacion del menu interactivo de peticion de tamaño del tablero a jugar
  * @return {void} generacion de tablero y opciones
  */

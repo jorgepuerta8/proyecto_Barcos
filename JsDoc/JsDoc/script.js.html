@@ -32,7 +32,6 @@
  * Creación de la clase Barco
  * @author Cosmin
  * @param {int} tamano
- * @param {int} posicionY
  * @param {int} posicionX
  * @param {int} posicionY
  * @param {direccion} direccion
@@ -40,18 +39,64 @@
  */
 class Barco {
 
-    constructor(tamano, posicionY, posicionX, direccion){
+    constructor(tamano, posicionX, posicionY, direccion){
         this.tamano = tamano;
-        this.posicionY = [];
         this.posicionX = [];
+        this.posicionY = [];
+        this.novalidoX = [];
+        this.novalidoY = [];
         this.direccion = direccion;
 
-        
+        /*
+        * Relleno el arrray de posicion en el caso de que 
+        * el barco se coloque en horizontal
+        */
+        if(this.direccion == 'derecha'){
+            this.posicionY.push(posicionY);
+            for(let i = 0;i &lt; tamano; i++){
+                this.posicionX.push(posicionX + i);
+            }
+
+            //Zona no valida
+            this.novalidoY.push(posicionY);
+            this.novalidoY.push(posicionY-1);
+            this.novalidoY.push(posicionY+1);
+            this.novalidoX.push(posicionX-1);
+            this.novalidoX.push(posicionX + tamano);
+            for (let i = 0; i &lt; tamano; i++) {
+                this.novalidoX.push(posicionX + i);
+            }
+        }
+
+        /*
+        * Relleno el arrray de posicion en el caso de que 
+        * el barco se coloque en vartical
+        */
+        else if(this.direccion == 'abajo'){
+            this.posicionX.push(posicionX);
+            for(let i = 0;i &lt; tamano; i++){
+                this.posicionY.push(posicionY + i);
+            }
+
+            //Zona no valida
+            this.novalidoX.push(posicionX);
+            this.novalidoX.push(posicionX - 1);
+            this.novalidoX.push(posicionX + 1);
+            this.novalidoY.push(posicionY - 1);
+            this.novalidoY.push(posicionY + tamano);
+            for (let i = 0; i &lt; tamano; i++) {
+                this.novalidoY.push(posicionY + i);
+            }
+        }
     }
 }
 
+//Variables globales
+var barcosColocados = [];
+var tamanoTablero;
+
 /**
- * @author Nico
+ * @author Cosmin
  * Creacion del menu interactivo de peticion de tamaño del tablero a jugar
  * @return {void} generacion de tablero y opciones
  */
@@ -83,9 +128,9 @@ function menuCreacion(){
     contenedor.appendChild(fragmentoDOM);
     //Listener del boton
     boton.addEventListener('click',() => {
-        let tamano = input.value;
+        tamanoTablero = parseInt(input.value,10);
         contenedor.innerHTML = '';
-        crearTabla(tamano);
+        crearTabla();
     })
 }
 /**
@@ -95,29 +140,27 @@ function menuCreacion(){
  * @return {void} tablero 
  * 
  */
-function crearTabla(tamano){
+function crearTabla(){
     
-    tamano = parseInt(tamano, 10);
-
     let contenedor = document.getElementById('campo');
     let fragmentoDOM = document.createDocumentFragment();
     let tabla = document.createElement('table');
     tabla.setAttribute('id','tablero');
 
-    if(tamano &lt; 4){
-        tamano = 4;
+    if(tamanoTablero &lt; 4){
+        tamanoTablero = 4;
     }
-    else if(tamano > 10){
-        tamano = 10;
+    else if(tamanoTablero > 10){
+        tamanoTablero = 10;
     }
-    else if(isNaN(tamano)){
-        tamano = 4;
+    else if(isNaN(tamanoTablero)){
+        tamanoTablero = 4;
     }
     
-    for(let i = 0; i&lt; tamano +1; i++){
+    for(let i = 0; i&lt; tamanoTablero +1; i++){
         //Crear fila
         let fila = document.createElement('tr');
-        for(let j = 0; j&lt; tamano +1; j++){
+        for(let j = 0; j&lt; tamanoTablero +1; j++){
             //Crear celda
             let celda = document.createElement('td');
             //Primera celda vacia
@@ -145,7 +188,7 @@ function crearTabla(tamano){
     fragmentoDOM.appendChild(tabla);
     contenedor.insertBefore(fragmentoDOM,contenedor.firstChild);
 
-    crearControles(tamano);
+    crearControles();
 }
 /**
  * Función que genera los controles de coordenadas
@@ -153,7 +196,7 @@ function crearTabla(tamano){
  * @param {int} tamano 
  * @return {void} opciones
  */
-function crearControles(tamano){
+function crearControles(){
     let fragmentoDOM = document.createDocumentFragment();
 
     //Label para el select del tamaño del barco
@@ -186,9 +229,9 @@ function crearControles(tamano){
     x.setAttribute('name','xy[]');
     //Optgroup en select
     let tituloX = document.createElement('optgroup');
-    tituloX.setAttribute('label','X')
+    tituloX.setAttribute('label','Horizontal')
     //Creacion opciones
-    for(let i = 0 ; i &lt; tamano;i++){
+    for(let i = 0 ; i &lt; tamanoTablero;i++){
         let opc =document.createElement('option');
         opc.setAttribute('value',i+1);
         opc.textContent=i+1;
@@ -201,9 +244,9 @@ function crearControles(tamano){
     y.setAttribute('name','xy[]');
     //Optgroup en select
     let tituloY = document.createElement('optgroup');
-    tituloY.setAttribute('label','Y')
+    tituloY.setAttribute('label','Vertical')
     //Creacion opciones
-    for(let i = 0 ; i &lt; tamano;i++){
+    for(let i = 0 ; i &lt; tamanoTablero;i++){
         let opc =document.createElement('option');
         opc.setAttribute('value',i+1);
         opc.textContent=i+1;
@@ -238,12 +281,20 @@ function crearControles(tamano){
     fragmentoDOM.appendChild(direccion);
 
     //Boton para colocar el barco
-    let boton = document.createElement('button');
-    boton.setAttribute('type','button');
-    boton.setAttribute('id','colocar');
-    boton.textContent='Colocar';
+    let colocar = document.createElement('button');
+    colocar.setAttribute('type','button');
+    colocar.setAttribute('id','colocar');
+    colocar.textContent='Colocar';
 
-    fragmentoDOM.appendChild(boton);
+    fragmentoDOM.appendChild(colocar);
+
+    //Boton para empezar a disparar
+    let disparar = document.createElement('button');
+    disparar.setAttribute('type','button');
+    disparar.setAttribute('id','disparar');
+    disparar.textContent='Disparar';
+
+    fragmentoDOM.appendChild(disparar);
 
     let caja = document.getElementById('campo');
     let controles = document.createElement('div');
@@ -252,7 +303,8 @@ function crearControles(tamano){
     controles.appendChild(fragmentoDOM);
     caja.appendChild(controles);
 
-    boton.addEventListener('click',colocarBarco);
+    colocar.addEventListener('click',colocarBarco);
+    disparar.addEventListener('click',dispararBarco);
 }
 /**
  * Funcion que nos coloca el barco en el tablero según 
@@ -262,11 +314,149 @@ function crearControles(tamano){
  */
 function colocarBarco() {
 
+    //Coger los datos de los inputs
     let tamanoBarco = document.getElementsByName('tamano')[0].value;
     let x = document.getElementsByName('xy[]')[0].value;
     let y = document.getElementsByName('xy[]')[1].value;
     let direccion = document.getElementsByName('direccion')[0].value;
 
+    tamanoBarco = parseInt(tamanoBarco, 10);
+    x = parseInt(x, 10);
+    y = parseInt(y, 10);
+
+    //Comprobación e insercción en lista de barcos
+    if(comprobarBarco(tamanoBarco,x,y,direccion)){
+        let barco = new Barco(tamanoBarco,x,y,direccion)
+        barcosColocados.push(barco);
+        let tableroYX = cargarTablero();
+        //En caso de que el barco sea de una celda
+        if(barco.posicionX.length==barco.posicionY.length){
+            tableroYX[barco.posicionY[0]][barco.posicionX[0]].setAttribute('class', 'barco');
+        }
+        //En caso de que se coloque en vertical
+        else if(barco.posicionX.length==1){
+            for(let i = 0; i&lt; barco.posicionY.length;i++){
+                tableroYX[barco.posicionY[i]][barco.posicionX[0]].setAttribute('class','barco');
+            }
+        }
+        //En caso de que se coloque en horizontal
+        else if(barco.posicionY.length==1){
+            for(let i = 0; i&lt; barco.posicionX.length;i++){
+                tableroYX[barco.posicionY[0]][barco.posicionX[i]].setAttribute('class','barco');
+            }
+        }
+    }
+}
+/**
+ * Metodo realizado para comprobar si un barco abarca el mismo espacio de uno ya existente
+ * @author Cosmin
+ * @param {*} tamanoBarco 
+ * @param {*} x 
+ * @param {*} y 
+ * @param {*} direccion 
+ * 
+ */
+function comprobarBarco(tamanoBarco,x,y,direccion){
+    let valido = false;
+    
+    if(conflictoZonas(tamanoBarco,x,y,direccion)){
+        //Si se ha colocado en horizontal
+        if(direccion == 'derecha'){
+            if(tamanoTablero +1 >= tamanoBarco + x){
+                valido = true;
+            }
+        }
+        //Si se ha colocado en vertical
+        else if(direccion == 'abajo'){
+            if(tamanoTablero +1 >= tamanoBarco + y){
+                valido = true;
+            }
+        }
+    }
+
+    return valido;
+}
+
+/**
+ * @author Cosmin
+ * @param {*} tamanoBarco 
+ * @param {*} x 
+ * @param {*} y 
+ * @param {*} direccion 
+ */
+
+
+
+function conflictoZonas(tamanoBarco,x,y,direccion){
+    let valido = true;
+
+    let barcoNuevo = new Barco(tamanoBarco,x,y,direccion);
+    
+    barcosColocados.forEach((barco)=>{
+        barcoNuevo.posicionX.forEach((x)=>{
+            if(barco.novalidoX.includes(x) &amp;&amp; barco.novalidoY.includes(barcoNuevo.posicionY[0])){
+                valido = false;
+                
+            }
+        })
+        barcoNuevo.posicionY.forEach((y)=>{
+            if(barco.novalidoY.includes(y) &amp;&amp; barco.novalidoX.includes(barcoNuevo.posicionX[0])){
+                valido = false;
+                
+            }
+        })
+    })
+    
+    return valido;
+}
+/**
+ * Renderiza el tablero
+ * @author Nico
+ * 
+ */
+function cargarTablero(){
+    let tablero = document.getElementById('tablero');
+    let tableroYX = [];
+    
+    //Cargo todas las celdas a un array bidimensional
+    [...tablero.children].forEach((fila)=>{
+        let columna = [];
+        [...fila.children].forEach((celda)=>{
+            columna.push(celda);
+        })
+        tableroYX.push(columna);
+    })
+
+    return tableroYX;
+}
+/**
+ * El usuario selecciona las coordenadas dentro del tablero
+ * @author Nico
+ */
+function dispararBarco(){
+    //Quito la funcion de colocar barcos
+    document.getElementById('colocar').removeEventListener('click',colocarBarco);
+
+    //Escondo los barcos
+    [].forEach.call(document.querySelectorAll('.barco'), function (barco) {
+        barco.style.backgroundColor = 'white';
+    });
+
+    let tablero = document.getElementById('tablero');
+
+    tablero.addEventListener('click',(e)=>{
+        if(e.target.nodeName=='TD'){
+            //Si hace click en un barco
+            if(e.target.className=='barco'){
+                e.target.removeAttribute('style');
+                e.target.setAttribute('class','golpe');
+            }
+            //Si hace click en agua
+            else if(!(e.target.className=='golpe')){
+                e.target.setAttribute('class','agua');
+            }
+        }
+    })
 }</code></pre>
         </article>
     </section>
@@ -277,13 +467,13 @@ function colocarBarco() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Barco.html">Barco</a></li></ul><h3>Global</h3><ul><li><a href="global.html#colocarBarco">colocarBarco</a></li><li><a href="global.html#crearControles">crearControles</a></li><li><a href="global.html#crearTabla">crearTabla</a></li><li><a href="global.html#menuCreacion">menuCreacion</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Barco.html">Barco</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cargarTablero">cargarTablero</a></li><li><a href="global.html#colocarBarco">colocarBarco</a></li><li><a href="global.html#comprobarBarco">comprobarBarco</a></li><li><a href="global.html#conflictoZonas">conflictoZonas</a></li><li><a href="global.html#crearControles">crearControles</a></li><li><a href="global.html#crearTabla">crearTabla</a></li><li><a href="global.html#dispararBarco">dispararBarco</a></li><li><a href="global.html#menuCreacion">menuCreacion</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed Feb 23 2022 12:44:05 GMT+0100 (hora estándar de Europa central)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed Feb 23 2022 23:12:00 GMT+0100 (hora estándar de Europa central)
 </footer>
 
 <script> prettyPrint(); </script>

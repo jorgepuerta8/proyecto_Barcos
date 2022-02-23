@@ -326,7 +326,7 @@ function colocarBarco() {
  * @param {*} x 
  * @param {*} y 
  * @param {*} direccion 
- * @returns 
+ * 
  */
 function comprobarBarco(tamanoBarco,x,y,direccion){
     let valido = false;
@@ -381,7 +381,11 @@ function conflictoZonas(tamanoBarco,x,y,direccion){
     
     return valido;
 }
-
+/**
+ * Renderiza el tablero
+ * @author Nico
+ * 
+ */
 function cargarTablero(){
     let tablero = document.getElementById('tablero');
     let tableroYX = [];
@@ -397,7 +401,10 @@ function cargarTablero(){
 
     return tableroYX;
 }
-
+/**
+ * El usuario selecciona las coordenadas dentro del tablero
+ * @author Nico
+ */
 function dispararBarco(){
     //Quito la funcion de colocar barcos
     document.getElementById('colocar').removeEventListener('click',colocarBarco);
